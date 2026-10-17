@@ -260,7 +260,7 @@ canvas{ touch-action:none; }
    turned that off for a pointer that IS a cursor, so a laptop kept thumb-sized
    keys it never needed. Measured at 1440x900 across the served roster: ten
    games carry a control block over 90px tall — RIVETBOT 152, BOTMAN/BURROBOT/
-   Mrs Bot 142, BotFord/DRUM PUSH/HOP 106 136 — and every one of those canvases
+   Mrs Bot 142, BotFord/DRUM PUSH/HOPBOT 136 — and every one of those canvases
    is HEIGHT-BOUND, so each pixel of pad comes straight out of the play area.
    The pad stays (people do click it), it just stops being a thumb rest.
    Measured gain: +4.6% to +8.5% canvas height on eight games, and because the
@@ -512,7 +512,7 @@ canvas{ touch-action:none; }
       '.fb-seed-btn:focus-visible{outline:2px solid #3a6ff7;outline-offset:2px}' +
       '.fb-seed .s{display:none}' +
       /* The game's own NAME outranks this chip. At 375px the long label pushed
-       * "WING 106" out of the topbar and left the title rendering as "W..",
+       * "WINGBOT" out of the topbar and left the title rendering as "W..",
        * so below 560px the chip drops the date and uses its short label. A
        * badge that costs a game its title is not worth the information. */
       '@media (max-width:560px){.fb-seed{font-size:10px;padding:3px 3px 3px 7px;gap:4px}' +
@@ -554,7 +554,7 @@ canvas{ touch-action:none; }
      2. CABINET — the canvas reads as an arcade screen: bezel, amber rim light, glow.
      3. THEME  — dark-mode parity with the hub (games.finnstergram.com adapts, the
                  games did not, so hub -> game was a light/dark slap in the face).
-   v2: the PIXEL bot mark (16x16 monitor head, magenta smile — the face of Bots #106/#20)
+   v3: the PIXEL bot mark is Bot 2969, the main character (full colour, 16x16, outlined)
    shared with finnstergram.com and the hub, and a NIGHT-MODE SWITCH in the topbar.
    Section 4 below is written ONCE; apply-brand.js emits it twice — for "the device is
    dark and the player has not chosen light", and for "the switch says dark" — scoping
@@ -999,7 +999,7 @@ body:not(.mode-paid) .app .facts{ display:block !important; }
 <body>
   <div class="wrap">
     <header class="topbar">
-      <!--fb:title--><a class="fb-mark" href="https://games.finnstergram.com" aria-label="FinnBots — more games"><svg class="fb-bot" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true" focusable="false"><path fill="currentColor" d="M7 1h2v2H7zM2 3h12v1H2zM1 4h14v9H1zM2 13h12v1H2zM0 7h1v3H0zM15 7h1v3h-1z"/><path fill="var(--fb-amber)" d="M7 0h2v1H7z"/><path fill="var(--fb-screen)" d="M2 5h12v7H2z"/><path fill="var(--fb-face,#ff4fd8)" d="M4 6h2v1H4zM3 7h1v2H3zM6 7h1v2H6zM10 6h2v1h-2zM9 7h1v2H9zM12 7h1v2h-1zM4 10h1v1H4zM11 10h1v1h-1zM5 11h6v1H5z"/></svg><span class="fb-word">FINN<i>BOTS</i></span></a><button class="fb-theme" type="button" role="switch" aria-checked="false" aria-label="Night mode"><span class="fbt-track" aria-hidden="true"><span class="fbt-thumb"><svg class="fbt-sun" viewBox="0 0 7 7" shape-rendering="crispEdges"><path fill="#e8891c" d="M2 2h3v3H2zM3 0h1v1H3zM3 6h1v1H3zM0 3h1v1H0zM6 3h1v1H6zM1 1h1v1H1zM5 1h1v1H5zM1 5h1v1H1zM5 5h1v1H5z"/></svg><svg class="fbt-moon" viewBox="0 0 7 7" shape-rendering="crispEdges"><path fill="#3d3f9e" d="M2 0h3v1H2zM1 1h2v1H1zM0 2h2v3H0zM1 5h2v1H1zM2 6h3v1H2zM4 5h2v1H4z"/></svg></span></span></button><!--/fb-->
+      <!--fb:title--><a class="fb-mark" href="https://games.finnstergram.com" aria-label="FinnBots — more games"><svg class="fb-bot" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true" focusable="false"><path fill="#2a2350" d="M2 2h12v1H2zM1 3h1v1H1zM14 3h1v1H14zM0 4h1v1H0zM15 4h1v1H15zM0 5h1v1H0zM15 5h1v1H15zM0 6h1v1H0zM15 6h1v1H15zM0 7h1v1H0zM15 7h1v1H15zM0 8h1v1H0zM15 8h1v1H15zM0 9h1v1H0zM15 9h1v1H15zM0 10h1v1H0zM15 10h1v1H15zM0 11h1v1H0zM15 11h1v1H15zM0 12h1v1H0zM15 12h1v1H15zM1 13h1v1H1zM14 13h1v1H14zM2 14h12v1H2z"/><path fill="#ff8fc8" d="M3 0h2v1H3zM11 0h2v1H11zM3 1h2v1H3zM11 1h2v1H11z"/><path fill="#8fd3f5" d="M2 3h12v1H2zM1 4h14v1H1zM1 5h14v1H1zM1 6h14v1H1zM1 7h14v1H1zM1 8h14v1H1zM1 9h14v1H1zM1 10h14v1H1zM1 11h14v1H1zM1 12h14v1H1zM2 13h12v1H2z"/><path fill="#5aa9d6" d="M1 4h3v1H1zM1 5h3v1H1zM1 6h3v1H1zM1 7h3v1H1zM1 8h3v1H1zM1 9h3v1H1zM1 10h3v1H1zM1 11h3v1H1zM1 12h3v1H1z"/><path fill="#fff" d="M3 5h4v1H3zM9 5h4v1H9zM3 6h4v1H3zM9 6h4v1H9zM3 7h4v1H3zM9 7h4v1H9z"/><path fill="#2a2350" d="M4 5h1v1H4zM11 5h1v1H11zM4 6h2v1H4zM10 6h2v1H10z"/><path fill="#fff" d="M4 10h8v1H4zM4 11h8v1H4z"/><path fill="#2a2350" d="M6 10h1v1H6zM8 10h1v1H8zM10 10h1v1H10zM6 11h1v1H6zM8 11h1v1H8zM10 11h1v1H10z"/></svg><span class="fb-word">FINN<i>BOTS</i></span></a><button class="fb-theme" type="button" role="switch" aria-checked="false" aria-label="Night mode"><span class="fbt-track" aria-hidden="true"><span class="fbt-thumb"><svg class="fbt-sun" viewBox="0 0 7 7" shape-rendering="crispEdges"><path fill="#e8891c" d="M2 2h3v3H2zM3 0h1v1H3zM3 6h1v1H3zM0 3h1v1H0zM6 3h1v1H6zM1 1h1v1H1zM5 1h1v1H5zM1 5h1v1H1zM5 5h1v1H5z"/></svg><svg class="fbt-moon" viewBox="0 0 7 7" shape-rendering="crispEdges"><path fill="#3d3f9e" d="M2 0h3v1H2zM1 1h2v1H1zM0 2h2v3H0zM1 5h2v1H1zM2 6h3v1H2zM4 5h2v1H4z"/></svg></span></span></button><!--/fb-->
       <h1 class="title">JAMBOT</h1>
       <div class="modebar" role="tablist" aria-label="Play mode">
         <button class="modepill active" id="modeFree" type="button" role="tab">Free</button>
@@ -1055,7 +1055,7 @@ body:not(.mode-paid) .app .facts{ display:block !important; }
     <div class="card">
       <h2 id="rulesTitle">HOW TO PLAY</h2>
       <ul class="rules">
-        <li>You are <b>Bot 106</b>. <b>JAMBOT</b> has jammed your car into a yard full of bot-buses and bot-trucks — five yards, each deeper than the last.</li>
+        <li>You are <b>Bot 2969</b>. <b>JAMBOT</b> has jammed your car into a yard full of bot-buses and bot-trucks — five yards, each deeper than the last.</li>
         <li><b>Drag a vehicle</b> to slide it. Every vehicle only slides the way it points: long-ways, never sideways.</li>
         <li>Clear a path so your amber car can drive out of the <b>EXIT</b> gap on the right.</li>
         <li>Every slide of one vehicle, however far, is one <b>move</b>. <b>PAR</b> is the fewest moves it can be done in. <b>UNDO</b> takes a move back for free; <b>RESET</b> puts the yard back. Keyboard: Tab picks a vehicle, arrows slide it, Z undoes.</li>
@@ -1107,9 +1107,9 @@ body:not(.mode-paid) .app .facts{ display:block !important; }
 "use strict";
 /* ==========================================================================
    JAMBOT — FinnBots.  ENGINE (Free gameplay).
-   The sliding-block yard. JAMBOT, the host Bot, has jammed Bot 106's car in a
+   The sliding-block yard. JAMBOT, the host Bot, has jammed Bot 2969's car in a
    6x6 yard full of bot-buses and bot-trucks. Every vehicle slides only the way
-   it points. Slide them about until Bot 106's car can drive out of the gap on
+   it points. Slide them about until Bot 2969's car can drive out of the gap on
    the right. Five jams a run, each deeper than the last. Rules: BRIEF-jambot.md.
    Contract kept for the wallet/leaderboard layer:
      - export { newRun, stepGame, … } (headless) for the gates; a no-input run
@@ -1121,7 +1121,7 @@ body:not(.mode-paid) .app .facts{ display:block !important; }
    ========================================================================== */
 
 const CFG = { name:'JAMBOT', memoNS:'JAMB', chassis:'sink-leaderboard',
-              subdomain:'jambot.finnstergram.com', port:9038, hero:106, accent:'#f2a03d', entryOIL:25, scorePost:1 };
+              subdomain:'jambot.finnstergram.com', port:9038, hero:2969, accent:'#f2a03d', entryOIL:25, scorePost:1 };
 
 /* ---- RULES (the researched table — see the BRIEF) ------------------------- */
 const RUN = { w:600, h:780, top:64 };
@@ -1138,8 +1138,7 @@ const LEVELS = [
   { name:'HARD',   ms:300000 },
   { name:'EXPERT', ms:390000 },
 ];
-/* THE POOL. Every jam is '<36 squares, row-major>|<least moves>': '.' empty, 'A' Bot
-   106's car, 'B'.. the others. Made by factory/make-jams.js (the cluster method:
+/* THE POOL. Every jam is '<36 squares, row-major>|<least moves>': '.' empty, 'A' Bot 2969's car, 'B'.. the others. Made by factory/make-jams.js (the cluster method:
    every state of the yard walked, so the least-moves count is exact), and re-proved
    by factory/sim-jam.js --self-check with its own solver. A MOVE is one vehicle
    slid any distance, as the original counts it. */
@@ -1383,14 +1382,14 @@ if(!HEADLESS){
     cv.style.width=Math.max(80,Math.floor(w))+'px'; cv.style.height=Math.max(44,Math.floor(h))+'px'; }
   addEventListener('resize',fitCanvas); fitCanvas(); setTimeout(fitCanvas,120);
 
-  /* ---- art: Bot 106 (the hero, cropped to his opaque box) ---- */
+  /* ---- art: Bot 2969 (the hero, cropped to his opaque box) ---- */
   const hero={ img:new Image(), ok:false, sx:0, sy:0, sw:0, sh:0 };
   hero.img.onload=function(){ try{ const c=document.createElement('canvas'), w=hero.img.naturalWidth, h=hero.img.naturalHeight;
       c.width=w; c.height=h; const g=c.getContext('2d'); g.drawImage(hero.img,0,0); const d=g.getImageData(0,0,w,h).data;
       let x0=w,y0=h,x1=-1,y1=-1; for(let y=0;y<h;y++) for(let x=0;x<w;x++) if(d[(y*w+x)*4+3]>16){ if(x<x0)x0=x; if(y<y0)y0=y; if(x>x1)x1=x; if(y>y1)y1=y; }
       if(x1>=0){ hero.sx=x0; hero.sy=y0; hero.sw=x1-x0+1; hero.sh=y1-y0+1; } else { hero.sw=w; hero.sh=h; }
     }catch(e){ hero.sw=hero.img.naturalWidth; hero.sh=hero.img.naturalHeight; } hero.ok=true; };
-  hero.img.src='assets/hero/bot-106.png';
+  hero.img.src='assets/hero/bot-2969.png';
 
   // ---- audio (tiny) ----
   let ac=null; function blip(f,d){ if(reduce)return; try{ ac=ac||new (window.AudioContext||window.webkitAudioContext)();
@@ -1477,7 +1476,7 @@ if(!HEADLESS){
       ctx.fillStyle='rgba(0,0,0,.35)'; rr(x+3,y+4,w,h,14); ctx.fill();
       ctx.fillStyle = i===0 ? C.amber : LIVERY[(i-1)%LIVERY.length]; rr(x,y,w,h,14); ctx.fill();
       ctx.fillStyle='rgba(255,255,255,.18)'; rr(x+4,y+4,w-8,Math.min(h,w)*0.18,8); ctx.fill();
-      /* the cab: a dark screen with two amber eyes (Bot 106 rides in his own) */
+      /* the cab: a dark screen with two amber eyes (Bot 2969 rides in his own) */
       const cw=Math.min(w,h)*0.78, cx = v.h ? x+w-cw-8 : x+(w-cw)/2, cy = v.h ? y+(h-cw)/2 : y+8;
       ctx.fillStyle=C.ink; rr(cx,cy,cw,cw,9); ctx.fill();
       if (i===0) heroBot(cx+3,cy+3,cw-6);
@@ -1493,7 +1492,7 @@ if(!HEADLESS){
     ctx.textAlign='center'; ctx.textBaseline='alphabetic';
     ctx.fillStyle='#fff'; ctx.font='28px '+PX; ctx.fillText('MOVES '+s.hist.length+'   ·   PAR '+s.par, RUN.w/2, by);
     ctx.fillStyle=C.muted; ctx.font='600 13px '+F;
-    ctx.fillText('Drag a vehicle the way it points · get Bot 106 out of the gap →', RUN.w/2, by+26);
+    ctx.fillText('Drag a vehicle the way it points · get Bot 2969 out of the gap →', RUN.w/2, by+26);
   }
   function drawLadder(){ const y=RUN.h-34, w=RUN.w/LEVELS.length;
     LEVELS.forEach((L,k)=>{ const cx=w*k+w/2, r=s.results.find(x=>x.level===k), cur=k===s.level && s.phase==='play' && !r;
@@ -1505,7 +1504,7 @@ if(!HEADLESS){
     ctx.fillStyle='rgba(14,21,29,.95)'; rr(40,y0,RUN.w-80,250,18); ctx.fill();
     ctx.textAlign='center'; ctx.textBaseline='alphabetic';
     ctx.fillStyle = r.out ? '#7be3a4' : '#ff8f8f'; ctx.font='34px '+PX;
-    ctx.fillText(r.out ? (r.moves<=r.par ? 'PERFECT! '+r.moves+' MOVES' : 'BOT 106 IS OUT!') : 'OUT OF TIME', RUN.w/2, y0+60);
+    ctx.fillText(r.out ? (r.moves<=r.par ? 'PERFECT! '+r.moves+' MOVES' : 'BOT 2969 IS OUT!') : 'OUT OF TIME', RUN.w/2, y0+60);
     ctx.fillStyle='#fff'; ctx.font='600 15px '+F;
     if (r.out){ const pp=PAR_PTS*Math.max(0,2*r.par-r.moves);
       ctx.fillText('+'+(JAM_PTS*(r.level+1))+' for the jam · +'+pp+' for '+r.moves+' moves (par '+r.par+') · +'+r.secs+' for time', RUN.w/2, y0+98); }
