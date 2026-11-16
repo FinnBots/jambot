@@ -1390,6 +1390,39 @@ function range(s, i){ const v=s.cars[i], o=occupancy(s.cars), at=k=>v.h ? v.line
   return [lo, hi]; }
 const solved = s => s.cars.length && s.cars[0].pos===SIZE-2;
 
+/* THE GUIDE (2026-11-16; growth review W46: 6 sessions all time, ONE finished run — first-timers were leaving inside
+   the first yard). On the FIRST jam only, the next move of a SHORTEST way out, from wherever the yard is NOW, so a wrong
+   move is never a dead end: the guide re-plans. Breadth-first over whole slides (a move is one vehicle slid any
+   distance, as the game counts it), so following it clears the jam in exactly the moves left to par. Pure and
+   exported: sim-jam.js checks it. Every player gets the same guide on the same jam, so the board stays fair; jams 2-5
+   are never guided. Returns { i, pos } or null (not jam 1, already out, or past GUIDE_CAP states). */
+const GUIDE_LEVEL = 0, GUIDE_CAP = 60000;
+function bestMove(s){
+  if (!s.dealt || s.level!==GUIDE_LEVEL || s.beat!=='' || !s.cars.length) return null;
+  const cars=s.cars, n=cars.length, start=cars.map(v=>v.pos), sk=start.join(',');
+  if (start[0]===SIZE-2) return null;
+  const occ=p=>{ const o=new Int8Array(SIZE*SIZE).fill(-1);
+    for (let i=0;i<n;i++){ const v=cars[i]; for (let k=0;k<v.len;k++) o[v.h ? v.line*SIZE+p[i]+k : (p[i]+k)*SIZE+v.line]=i; } return o; };
+  const from=new Map([[sk,null]]); let q=[start];
+  while (q.length){ const nq=[];
+    for (const p of q){ const o=occ(p), pk=p.join(',');
+      for (let i=0;i<n;i++){ const v=cars[i], at=k=>v.h ? v.line*SIZE+k : k*SIZE+v.line;
+        let lo=p[i], hi=p[i];
+        while (lo>0 && o[at(lo-1)]<0) lo--;
+        while (hi+v.len<SIZE && o[at(hi+v.len)]<0) hi++;
+        for (let to=lo; to<=hi; to++){ if (to===p[i]) continue;
+          const np=p.slice(); np[i]=to; const k=np.join(',');
+          if (from.has(k)) continue;
+          from.set(k, { prev:pk, i, pos:to });
+          if (i===0 && to===SIZE-2){ let step=from.get(k);   // walk back to the first move out of `start`
+            while (step.prev!==sk) step=from.get(step.prev);
+            return { i:step.i, pos:step.pos }; }
+          if (from.size>GUIDE_CAP) return null;
+          nq.push(np); } } }
+    q=nq; }
+  return null;
+}
+
 /* ---- RUN STATE ------------------------------------------------------------ */
 function newRun(){
   /* the ONLY Math.random draw of a run; each jam is picked from its pool with it */
@@ -1462,7 +1495,7 @@ function stepGame(s, dtMs){
 const HEADLESS = (typeof document === 'undefined');
 if(HEADLESS){
   module.exports = { CFG, RUN, SIZE, EXIT_ROW, LEVELS, JAMS, CLEAR_MS, JAM_PTS, PAR_PTS,
-    newRun, stepGame, slideTo, undo, reset, next, range, occupancy, parseJam, solved, jamBonus, rng32 };
+    newRun, stepGame, slideTo, undo, reset, next, range, occupancy, parseJam, solved, jamBonus, rng32, bestMove, GUIDE_LEVEL };
 }
 
 /* ======================= DOM / RENDER / INPUT (browser) =================== */
@@ -1566,6 +1599,11 @@ if(!HEADLESS){
     if (ui.drag && ui.drag.i===i) p=ui.drag.at;
     if (i===0 && s.beat==='clear' && s.results.length && s.results[s.results.length-1].out) p=Math.min(SIZE+3, v.pos+ui.out);
     return v.h ? { x:YX+p*CELL, y:YY+v.line*CELL, w:CELL*v.len, h:CELL } : { x:YX+v.line*CELL, y:YY+p*CELL, w:CELL, h:CELL*v.len }; }
+  /* the guide on jam 1 (engine bestMove): worked out once per position, never per frame */
+  let gKey='', gMove=null;
+  function guide(){ if (!s.dealt || s.level!==GUIDE_LEVEL || s.beat!=='' || s.phase!=='play') return null;
+    const k=s.level+'|'+s.cars.map(v=>v.pos).join(','); if (k!==gKey){ gKey=k; gMove=bestMove(s); } return gMove; }
+  const pulse = ()=> reduce ? 0.8 : 0.55+0.45*Math.sin(performance.now()/180);
   function drawYard(){
     ctx.fillStyle=C.bg; ctx.fillRect(0,RUN.top,RUN.w,RUN.h-RUN.top);
     /* kerb, yard and the exit gap */
@@ -1595,12 +1633,21 @@ if(!HEADLESS){
       if (s.lastMove && s.lastMove.i===i && !reduce){ const a=1-(now-s.lastMove.t)/400; if (a>0){ ctx.strokeStyle='rgba(255,255,255,'+(0.6*a)+')'; ctx.lineWidth=3; rr(x,y,w,h,14); ctx.stroke(); } }
       if ((ui.keys && ui.sel===i) || (ui.drag && ui.drag.i===i)){ ctx.strokeStyle=C.cur; ctx.lineWidth=4; rr(x-2,y-2,w+4,h+4,16); ctx.stroke(); }
       ctx.restore(); });
+    /* the guide: the vehicle to move glows amber, and a dotted outline shows where it goes */
+    const gm=guide();
+    if (gm && !(ui.drag && ui.drag.i!==gm.i)){ const v=s.cars[gm.i], p=carPos(gm.i), a=0.6+0.4*pulse();   /* never fades below 0.6: it must read on a phone */
+      const t = v.h ? { x:YX+gm.pos*CELL, y:YY+v.line*CELL, w:CELL*v.len, h:CELL } : { x:YX+v.line*CELL, y:YY+gm.pos*CELL, w:CELL, h:CELL*v.len };
+      ctx.save(); ctx.setLineDash([8,7]); ctx.strokeStyle='rgba(242,160,61,'+(0.5+0.5*a)+')'; ctx.lineWidth=3; rr(t.x+4,t.y+4,t.w-8,t.h-8,14); ctx.stroke(); ctx.restore();
+      ctx.fillStyle='rgba(242,160,61,'+(0.18*a)+')'; rr(p.x+1,p.y+1,p.w-2,p.h-2,17); ctx.fill();
+      ctx.strokeStyle='rgba(242,160,61,'+a+')'; ctx.lineWidth=6; rr(p.x+1,p.y+1,p.w-2,p.h-2,17); ctx.stroke(); }
     /* under the yard: moves against par, and the two controls' hint */
     const by=YY+CELL*SIZE+44;
     ctx.textAlign='center'; ctx.textBaseline='alphabetic';
     ctx.fillStyle='#fff'; ctx.font='28px '+PX; ctx.fillText('MOVES '+s.hist.length+'   ·   PAR '+s.par, RUN.w/2, by);
     ctx.fillStyle=C.muted; ctx.font='600 13px '+F;
-    ctx.fillText('Drag a vehicle the way it points · get Bot 2969 out of the gap →', RUN.w/2, by+26);
+    if (gm){ ctx.fillStyle=C.amber; ctx.font='700 14px '+F;
+      ctx.fillText(gm.i===0 && gm.pos===SIZE-2 ? 'The way is clear — drive Bot 2969 out of the gap →' : 'Slide the glowing one to the dotted spot', RUN.w/2, by+26); }
+    else ctx.fillText('Drag a vehicle the way it points · get Bot 2969 out of the gap →', RUN.w/2, by+26);
   }
   function drawLadder(){ const y=RUN.h-34, w=RUN.w/LEVELS.length;
     LEVELS.forEach((L,k)=>{ const cx=w*k+w/2, r=s.results.find(x=>x.level===k), cur=k===s.level && s.phase==='play' && !r;
